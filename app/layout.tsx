@@ -30,6 +30,28 @@ export const metadata: Metadata = {
     ],
     apple: "/apple-icon.png",
   },
+  openGraph: {
+    title: "Wonder Food's Maraval - Café & desserts premium",
+    description: "Découvrez des crêpes, gaufres, tiramisu et boissons signature chez Wonder Food's. Parcourez notre menu et passez votre commande.",
+    url: "wonderfood-menu.vercel.app",
+    siteName: "Wonder Food's Maraval",
+    locale: "fr_FR",
+    type: "website",
+    images: [
+      {
+        url: "/logo1.png",
+        width: 1200,
+        height: 630,
+        alt: "Wonder Food's logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Wonder Food's Maraval - Café & desserts premium",
+    description: "Découvrez des crêpes, gaufres, tiramisu et boissons signature chez Wonder Food's. Parcourez notre menu et passez votre commande.",
+    images: ["/logo1.png"],
+  },
 };
 
 export const viewport: Viewport = {
