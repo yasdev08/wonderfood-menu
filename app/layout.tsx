@@ -13,7 +13,6 @@ export const metadata: Metadata = {
   title: "Wonder Food's Maraval - Café & desserts premium",
   description:
     "Découvrez des crêpes, gaufres, tiramisu et boissons signature chez Wonder Food's. Parcourez notre menu et passez votre commande.",
-  generator: "v0.app",
   icons: {
     icon: [
       {
