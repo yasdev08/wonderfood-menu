@@ -5,7 +5,10 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="bg-card text-foreground border-t border-border mt-16">
+    <footer
+      id="footer"
+      className="bg-card text-foreground border-t border-border mt-16"
+    >
       {/* Top Footer */}
       <div className="max-w-7xl mx-auto px-4 py-12 md:py-16 grid grid-cols-1 md:grid-cols-3 gap-8 border-b border-border/55">
         {/* Brand details */}

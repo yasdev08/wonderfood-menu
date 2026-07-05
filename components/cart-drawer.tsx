@@ -128,7 +128,7 @@ export function CartDrawer({
   };
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="sync" initial={false}>
       {isOpen && (
         <>
           {/* Overlay */}
@@ -198,7 +198,7 @@ export function CartDrawer({
                   </div>
                 ) : (
                   <motion.div layout className="space-y-3">
-                    <AnimatePresence mode="sync">
+                    <AnimatePresence mode="sync" initial={false}>
                       {items.map(({ item, quantity }) => (
                         <motion.div
                           layout
@@ -291,9 +291,7 @@ export function CartDrawer({
                         placeholder="Ex: Mohamed Benali"
                       />
                       {errors.name && (
-                        <p className="text-xs text-destructive mt-1">
-                          {errors.name}
-                        </p>
+                        <p className="text-xs text-white mt-1">{errors.name}</p>
                       )}
                     </div>
 
@@ -323,7 +321,7 @@ export function CartDrawer({
                         placeholder="Ex: 0550 12 34 56"
                       />
                       {errors.phone && (
-                        <p className="text-xs text-destructive mt-1">
+                        <p className="text-xs text-white mt-1">
                           {errors.phone}
                         </p>
                       )}

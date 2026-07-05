@@ -3,6 +3,12 @@
 import { motion } from "framer-motion";
 
 export function Hero() {
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
   const containerVariants = {
     hidden: {},
     visible: {
@@ -75,10 +81,16 @@ export function Hero() {
           variants={itemVariants}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <button className="px-8 py-3 bg-accent text-primary font-semibold rounded-lg hover:bg-accent/90 hover:scale-105 active:scale-95 transition-all cursor-pointer shadow-lg hover:shadow-accent/20">
+          <button
+            onClick={() => scrollToSection("menu")}
+            className="px-8 py-3 bg-accent text-primary font-semibold rounded-lg hover:bg-accent/90 hover:scale-105 active:scale-95 transition-all cursor-pointer shadow-lg hover:shadow-accent/20"
+          >
             Voir le menu
           </button>
-          <button className="px-8 py-3 border-2 border-accent text-accent font-semibold rounded-lg hover:bg-accent/10 hover:scale-105 active:scale-95 transition-all cursor-pointer">
+          <button
+            onClick={() => scrollToSection("footer")}
+            className="px-8 py-3 border-2 border-accent text-accent font-semibold rounded-lg hover:bg-accent/10 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+          >
             En savoir plus
           </button>
         </motion.div>

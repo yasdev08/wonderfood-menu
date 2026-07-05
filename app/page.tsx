@@ -1023,7 +1023,7 @@ export default function Home() {
         />
       )}
 
-      <div className="max-w-7xl mx-auto px-4 py-12 sm:py-16">
+      <div id="menu" className="max-w-7xl mx-auto px-4 py-12 sm:py-16">
         {Object.entries(groupedByCategory).map(([category, items]) => (
           <div
             key={category}
