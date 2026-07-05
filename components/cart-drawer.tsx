@@ -198,7 +198,7 @@ export function CartDrawer({
                   </div>
                 ) : (
                   <motion.div layout className="space-y-3">
-                    <AnimatePresence mode="popLayout">
+                    <AnimatePresence mode="sync">
                       {items.map(({ item, quantity }) => (
                         <motion.div
                           layout
