@@ -34,7 +34,7 @@ export function Header({ onSearch, cartItemsCount, onCartClick }: HeaderProps) {
             alt="Wonder food's logo"
             src="/logo1.svg"
             width={100}
-            height={100}
+            height={50}
             priority
           />
         </div>

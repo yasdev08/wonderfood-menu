@@ -8,13 +8,8 @@ import { MenuSection } from "@/components/menu-section";
 import { CartDrawer } from "@/components/cart-drawer";
 import { FloatingCartButton } from "@/components/floating-cart-button";
 import { Footer } from "@/components/footer";
-import dynamic from "next/dynamic";
 import { AnimatePresence } from "framer-motion";
-
-const ImageModal = dynamic(
-  () => import("@/components/image-modal").then((mod) => mod.ImageModal),
-  { ssr: false }
-);
+import { ImageModal } from "@/components/image-modal";
 
 export interface MenuItem {
   id: string;
@@ -875,7 +870,7 @@ export default function Home() {
 
   const categories = useMemo(
     () => Array.from(new Set(MENU_ITEMS.map((item) => item.category))),
-    []
+    [],
   );
 
   const filteredItems = useMemo(() => {
@@ -883,47 +878,55 @@ export default function Home() {
     return MENU_ITEMS.filter(
       (item) =>
         item.name.toLowerCase().includes(term) ||
-        item.category.toLowerCase().includes(term)
+        item.category.toLowerCase().includes(term),
     );
   }, [searchTerm]);
 
   const groupedByCategory = useMemo(() => {
     return categories.reduce(
       (acc, category) => {
-        const items = filteredItems.filter((item) => item.category === category);
+        const items = filteredItems.filter(
+          (item) => item.category === category,
+        );
         if (items.length > 0) {
           acc[category] = items;
         }
         return acc;
       },
-      {} as Record<string, MenuItem[]>
+      {} as Record<string, MenuItem[]>,
     );
   }, [categories, filteredItems]);
 
-  const handleAddToCart = useCallback((item: MenuItem, quantity: number = 1) => {
-    setCart((prev) => {
-      const existing = prev.find((ci) => ci.item.id === item.id);
-      if (existing) {
-        return prev.map((ci) =>
-          ci.item.id === item.id
-            ? { ...ci, quantity: ci.quantity + quantity }
-            : ci
-        );
-      }
-      return [...prev, { item, quantity }];
-    });
-  }, []);
+  const handleAddToCart = useCallback(
+    (item: MenuItem, quantity: number = 1) => {
+      setCart((prev) => {
+        const existing = prev.find((ci) => ci.item.id === item.id);
+        if (existing) {
+          return prev.map((ci) =>
+            ci.item.id === item.id
+              ? { ...ci, quantity: ci.quantity + quantity }
+              : ci,
+          );
+        }
+        return [...prev, { item, quantity }];
+      });
+    },
+    [],
+  );
 
-  const handleIncrement = useCallback((item: MenuItem) => {
-    handleAddToCart(item, 1);
-  }, [handleAddToCart]);
+  const handleIncrement = useCallback(
+    (item: MenuItem) => {
+      handleAddToCart(item, 1);
+    },
+    [handleAddToCart],
+  );
 
   const handleDecrement = useCallback((itemId: string) => {
     setCart((prev) => {
       const existing = prev.find((ci) => ci.item.id === itemId);
       if (existing && existing.quantity > 1) {
         return prev.map((ci) =>
-          ci.item.id === itemId ? { ...ci, quantity: ci.quantity - 1 } : ci
+          ci.item.id === itemId ? { ...ci, quantity: ci.quantity - 1 } : ci,
         );
       }
       return prev.filter((ci) => ci.item.id !== itemId);
@@ -951,7 +954,8 @@ export default function Home() {
     const element = categoryRefs.current[category];
     if (element) {
       const yOffset = -140; // Offset for sticky header + category nav
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      const y =
+        element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
   }, []);
@@ -981,7 +985,10 @@ export default function Home() {
       });
     };
 
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions,
+    );
     const observedElements: HTMLDivElement[] = [];
 
     Object.entries(categoryRefs.current).forEach(([_, el]) => {
@@ -1063,10 +1070,7 @@ export default function Home() {
 
       <AnimatePresence>
         {selectedItem && (
-          <ImageModal
-            item={selectedItem}
-            onClose={handleCloseModal}
-          />
+          <ImageModal item={selectedItem} onClose={handleCloseModal} />
         )}
       </AnimatePresence>
     </main>

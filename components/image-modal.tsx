@@ -89,6 +89,6 @@ export function ImageModal({ item, onClose }: ImageModalProps) {
         </div>
       </motion.div>
     </motion.div>,
-    document.body
+    document.body,
   );
 }

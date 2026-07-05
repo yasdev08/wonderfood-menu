@@ -32,10 +32,16 @@ export function CartDrawer({
   // Checkout Form States
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [deliveryMethod, setDeliveryMethod] = useState<"livraison" | "emporter" | "place">("livraison");
+  const [deliveryMethod, setDeliveryMethod] = useState<
+    "livraison" | "emporter" | "place"
+  >("livraison");
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
-  const [errors, setErrors] = useState<{ name?: string; phone?: string; address?: string }>({});
+  const [errors, setErrors] = useState<{
+    name?: string;
+    phone?: string;
+    address?: string;
+  }>({});
 
   useEffect(() => {
     if (isOpen) {
@@ -159,7 +165,9 @@ export function CartDrawer({
                   <ShoppingCart className="w-6 h-6 text-accent" />
                 )}
                 <h2 className="text-xl font-bold text-foreground">
-                  {step === "checkout" ? "Coordonnées de livraison" : "Votre panier"}
+                  {step === "checkout"
+                    ? "Coordonnées de livraison"
+                    : "Votre panier"}
                 </h2>
               </div>
               <button
@@ -178,7 +186,9 @@ export function CartDrawer({
                 items.length === 0 ? (
                   <div className="text-center py-16 flex flex-col items-center justify-center">
                     <ShoppingCart className="w-16 h-16 text-muted-foreground mb-4 opacity-40" />
-                    <p className="text-muted-foreground text-lg">Votre panier est vide</p>
+                    <p className="text-muted-foreground text-lg">
+                      Votre panier est vide
+                    </p>
                     <button
                       onClick={onClose}
                       className="mt-6 px-6 py-2 border-2 border-accent text-accent hover:bg-accent/10 rounded-full text-sm font-semibold transition-all cursor-pointer"
@@ -195,7 +205,11 @@ export function CartDrawer({
                           initial={{ opacity: 0, y: 10, scale: 0.95 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.9, x: 50 }}
-                          transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 500,
+                            damping: 35,
+                          }}
                           key={item.id}
                           className="flex items-center justify-between bg-muted/40 p-4 rounded-xl border border-border/50 hover:border-accent/40 hover:bg-muted/60 transition-all"
                         >
@@ -254,7 +268,10 @@ export function CartDrawer({
                   <div className="space-y-4">
                     {/* Full Name */}
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1">
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-foreground mb-1"
+                      >
                         Nom complet <span className="text-accent">*</span>
                       </label>
                       <input
@@ -263,21 +280,31 @@ export function CartDrawer({
                         value={name}
                         onChange={(e) => {
                           setName(e.target.value);
-                          if (errors.name) setErrors({ ...errors, name: undefined });
+                          if (errors.name)
+                            setErrors({ ...errors, name: undefined });
                         }}
-                        className={`w-full px-4 py-2.5 bg-muted/30 border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-accent ${errors.name ? "border-destructive focus:ring-destructive" : "border-border"
-                          }`}
+                        className={`w-full px-4 py-2.5 bg-muted/30 border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-accent ${
+                          errors.name
+                            ? "border-destructive focus:ring-destructive"
+                            : "border-border"
+                        }`}
                         placeholder="Ex: Mohamed Benali"
                       />
                       {errors.name && (
-                        <p className="text-xs text-destructive mt-1">{errors.name}</p>
+                        <p className="text-xs text-destructive mt-1">
+                          {errors.name}
+                        </p>
                       )}
                     </div>
 
                     {/* Phone Number */}
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-1">
-                        Numéro de téléphone <span className="text-accent">*</span>
+                      <label
+                        htmlFor="phone"
+                        className="block text-sm font-medium text-foreground mb-1"
+                      >
+                        Numéro de téléphone{" "}
+                        <span className="text-accent">*</span>
                       </label>
                       <input
                         type="tel"
@@ -285,14 +312,20 @@ export function CartDrawer({
                         value={phone}
                         onChange={(e) => {
                           setPhone(e.target.value);
-                          if (errors.phone) setErrors({ ...errors, phone: undefined });
+                          if (errors.phone)
+                            setErrors({ ...errors, phone: undefined });
                         }}
-                        className={`w-full px-4 py-2.5 bg-muted/30 border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-accent ${errors.phone ? "border-destructive focus:ring-destructive" : "border-border"
-                          }`}
+                        className={`w-full px-4 py-2.5 bg-muted/30 border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-accent ${
+                          errors.phone
+                            ? "border-destructive focus:ring-destructive"
+                            : "border-border"
+                        }`}
                         placeholder="Ex: 0550 12 34 56"
                       />
                       {errors.phone && (
-                        <p className="text-xs text-destructive mt-1">{errors.phone}</p>
+                        <p className="text-xs text-destructive mt-1">
+                          {errors.phone}
+                        </p>
                       )}
                     </div>
 
@@ -302,32 +335,40 @@ export function CartDrawer({
                         Type de commande
                       </label>
                       <div className="grid grid-cols-3 gap-2">
-                        {(["livraison", "emporter", "place"] as const).map((method) => (
-                          <button
-                            key={method}
-                            type="button"
-                            onClick={() => {
-                              setDeliveryMethod(method);
-                              if (method !== "livraison") setErrors({ ...errors, address: undefined });
-                            }}
-                            className={`py-2 px-1 rounded-lg text-xs font-semibold border transition-all text-center cursor-pointer ${deliveryMethod === method
-                              ? "bg-accent text-accent-foreground border-accent shadow-md"
-                              : "bg-muted/20 border-border text-muted-foreground hover:bg-muted/40"
+                        {(["livraison", "emporter", "place"] as const).map(
+                          (method) => (
+                            <button
+                              key={method}
+                              type="button"
+                              onClick={() => {
+                                setDeliveryMethod(method);
+                                if (method !== "livraison")
+                                  setErrors({ ...errors, address: undefined });
+                              }}
+                              className={`py-2 px-1 rounded-lg text-xs font-semibold border transition-all text-center cursor-pointer ${
+                                deliveryMethod === method
+                                  ? "bg-accent text-accent-foreground border-accent shadow-md"
+                                  : "bg-muted/20 border-border text-muted-foreground hover:bg-muted/40"
                               }`}
-                          >
-                            {method === "livraison" && "🚚 Livraison"}
-                            {method === "emporter" && "🛍️ Emporter"}
-                            {method === "place" && "🍽️ Sur place"}
-                          </button>
-                        ))}
+                            >
+                              {method === "livraison" && "🚚 Livraison"}
+                              {method === "emporter" && "🛍️ Emporter"}
+                              {method === "place" && "🍽️ Sur place"}
+                            </button>
+                          ),
+                        )}
                       </div>
                     </div>
 
                     {/* Delivery Address (Conditional) */}
                     {deliveryMethod === "livraison" && (
                       <div className="transition-all duration-300">
-                        <label htmlFor="address" className="block text-sm font-medium text-foreground mb-1">
-                          Adresse de livraison <span className="text-accent">*</span>
+                        <label
+                          htmlFor="address"
+                          className="block text-sm font-medium text-foreground mb-1"
+                        >
+                          Adresse de livraison{" "}
+                          <span className="text-accent">*</span>
                         </label>
                         <textarea
                           id="address"
@@ -335,21 +376,30 @@ export function CartDrawer({
                           value={address}
                           onChange={(e) => {
                             setAddress(e.target.value);
-                            if (errors.address) setErrors({ ...errors, address: undefined });
+                            if (errors.address)
+                              setErrors({ ...errors, address: undefined });
                           }}
-                          className={`w-full px-4 py-2 bg-muted/30 border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-accent resize-none ${errors.address ? "border-destructive focus:ring-destructive" : "border-border"
-                            }`}
+                          className={`w-full px-4 py-2 bg-muted/30 border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-accent resize-none ${
+                            errors.address
+                              ? "border-destructive focus:ring-destructive"
+                              : "border-border"
+                          }`}
                           placeholder="Rue, N° de porte, Quartier (Maraval, etc.), Repères..."
                         />
                         {errors.address && (
-                          <p className="text-xs text-destructive mt-1">{errors.address}</p>
+                          <p className="text-xs text-destructive mt-1">
+                            {errors.address}
+                          </p>
                         )}
                       </div>
                     )}
 
                     {/* Special Instructions (Notes) */}
                     <div>
-                      <label htmlFor="notes" className="block text-sm font-medium text-foreground mb-1">
+                      <label
+                        htmlFor="notes"
+                        className="block text-sm font-medium text-foreground mb-1"
+                      >
                         Remarques spéciales (facultatif)
                       </label>
                       <textarea
@@ -365,19 +415,27 @@ export function CartDrawer({
 
                   {/* Order Summary Box */}
                   <div className="bg-primary-foreground/5 border border-border p-4 rounded-xl space-y-2">
-                    <h4 className="text-xs uppercase tracking-wider text-accent font-bold">Récapitulatif</h4>
+                    <h4 className="text-xs uppercase tracking-wider text-accent font-bold">
+                      Récapitulatif
+                    </h4>
                     <div className="flex justify-between text-sm text-foreground/80">
                       <span>Articles ({totalQuantity})</span>
                       <span>{total} DA</span>
                     </div>
                     <div className="flex justify-between text-sm text-foreground/80">
                       <span>Livraison</span>
-                      <span className="text-xs text-accent">Calculée à la livraison</span>
+                      <span className="text-xs text-accent">
+                        Calculée à la livraison
+                      </span>
                     </div>
                   </div>
 
                   {/* Hidden submit trigger */}
-                  <button type="submit" className="hidden" id="checkout-form-submit" />
+                  <button
+                    type="submit"
+                    className="hidden"
+                    id="checkout-form-submit"
+                  />
                 </form>
               )}
             </div>
@@ -389,7 +447,9 @@ export function CartDrawer({
                   <span className="text-base font-semibold text-foreground">
                     Total de la commande :
                   </span>
-                  <span className="text-2xl font-bold text-accent">{total} DA</span>
+                  <span className="text-2xl font-bold text-accent">
+                    {total} DA
+                  </span>
                 </div>
 
                 <div className="space-y-3">
@@ -404,7 +464,9 @@ export function CartDrawer({
                     <button
                       type="button"
                       onClick={() => {
-                        const submitBtn = document.getElementById("checkout-form-submit");
+                        const submitBtn = document.getElementById(
+                          "checkout-form-submit",
+                        );
                         if (submitBtn) submitBtn.click();
                       }}
                       className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition-all duration-200 active:scale-95 flex items-center justify-center gap-2 shadow-md cursor-pointer"

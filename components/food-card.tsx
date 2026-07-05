@@ -148,7 +148,7 @@ function FoodCardComponent({ item, onAddToCart, onZoom }: FoodCardProps) {
               alt={item.name}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
-              loading="lazy"
+              
               onError={() => setImageError(true)}
               decoding="async"
               className="object-cover transition-transform duration-300 group-hover:scale-105"
