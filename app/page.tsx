@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
 import { CategoryNav } from "@/components/category-nav";
@@ -8,6 +8,13 @@ import { MenuSection } from "@/components/menu-section";
 import { CartDrawer } from "@/components/cart-drawer";
 import { FloatingCartButton } from "@/components/floating-cart-button";
 import { Footer } from "@/components/footer";
+import dynamic from "next/dynamic";
+import { AnimatePresence } from "framer-motion";
+
+const ImageModal = dynamic(
+  () => import("@/components/image-modal").then((mod) => mod.ImageModal),
+  { ssr: false }
+);
 
 export interface MenuItem {
   id: string;
@@ -858,33 +865,42 @@ const MENU_ITEMS: MenuItem[] = [
   },
 ];
 
-const CATEGORIES = Array.from(new Set(MENU_ITEMS.map((item) => item.category)));
-
 export default function Home() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("");
+  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const categoryRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
-  const filteredItems = MENU_ITEMS.filter(
-    (item) =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.category.toLowerCase().includes(searchTerm.toLowerCase()),
+  const categories = useMemo(
+    () => Array.from(new Set(MENU_ITEMS.map((item) => item.category))),
+    []
   );
 
-  const groupedByCategory = CATEGORIES.reduce(
-    (acc, category) => {
-      const items = filteredItems.filter((item) => item.category === category);
-      if (items.length > 0) {
-        acc[category] = items;
-      }
-      return acc;
-    },
-    {} as Record<string, MenuItem[]>,
-  );
+  const filteredItems = useMemo(() => {
+    const term = searchTerm.toLowerCase();
+    return MENU_ITEMS.filter(
+      (item) =>
+        item.name.toLowerCase().includes(term) ||
+        item.category.toLowerCase().includes(term)
+    );
+  }, [searchTerm]);
 
-  const handleAddToCart = (item: MenuItem, quantity: number = 1) => {
+  const groupedByCategory = useMemo(() => {
+    return categories.reduce(
+      (acc, category) => {
+        const items = filteredItems.filter((item) => item.category === category);
+        if (items.length > 0) {
+          acc[category] = items;
+        }
+        return acc;
+      },
+      {} as Record<string, MenuItem[]>
+    );
+  }, [categories, filteredItems]);
+
+  const handleAddToCart = useCallback((item: MenuItem, quantity: number = 1) => {
     setCart((prev) => {
       const existing = prev.find((ci) => ci.item.id === item.id);
       if (existing) {
@@ -896,9 +912,13 @@ export default function Home() {
       }
       return [...prev, { item, quantity }];
     });
-  };
+  }, []);
 
-  const handleDecrementFromCart = (itemId: string) => {
+  const handleIncrement = useCallback((item: MenuItem) => {
+    handleAddToCart(item, 1);
+  }, [handleAddToCart]);
+
+  const handleDecrement = useCallback((itemId: string) => {
     setCart((prev) => {
       const existing = prev.find((ci) => ci.item.id === itemId);
       if (existing && existing.quantity > 1) {
@@ -908,27 +928,43 @@ export default function Home() {
       }
       return prev.filter((ci) => ci.item.id !== itemId);
     });
-  };
+  }, []);
 
-  const handleRemoveFromCart = (itemId: string) => {
+  const handleRemove = useCallback((itemId: string) => {
     setCart((prev) => prev.filter((ci) => ci.item.id !== itemId));
-  };
+  }, []);
 
-  const handleClearCart = () => {
+  const handleClearCart = useCallback(() => {
     setCart([]);
     setIsCartOpen(false);
-  };
+  }, []);
 
-  const cartItemsCount = cart.reduce((sum, ci) => sum + ci.quantity, 0);
+  const handleCartClick = useCallback(() => {
+    setIsCartOpen((prev) => !prev);
+  }, []);
 
-  const scrollToCategory = (category: string) => {
+  const handleCloseCart = useCallback(() => {
+    setIsCartOpen(false);
+  }, []);
+
+  const scrollToCategory = useCallback((category: string) => {
     const element = categoryRefs.current[category];
     if (element) {
       const yOffset = -140; // Offset for sticky header + category nav
       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
-  };
+  }, []);
+
+  const handleZoom = useCallback((item: MenuItem) => {
+    setSelectedItem(item);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setSelectedItem(null);
+  }, []);
+
+  const cartItemsCount = cart.reduce((sum, ci) => sum + ci.quantity, 0);
 
   useEffect(() => {
     const observerOptions = {
@@ -967,7 +1003,7 @@ export default function Home() {
       <Header
         onSearch={setSearchTerm}
         cartItemsCount={cartItemsCount}
-        onCartClick={() => setIsCartOpen(!isCartOpen)}
+        onCartClick={handleCartClick}
       />
 
       {!searchTerm && <Hero />}
@@ -994,6 +1030,7 @@ export default function Home() {
               category={category}
               items={items}
               onAddToCart={handleAddToCart}
+              onZoom={handleZoom}
             />
           </div>
         ))}
@@ -1011,18 +1048,27 @@ export default function Home() {
 
       <CartDrawer
         isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
+        onClose={handleCloseCart}
         items={cart}
-        onIncrement={(item) => handleAddToCart(item, 1)}
-        onDecrement={handleDecrementFromCart}
-        onRemove={handleRemoveFromCart}
+        onIncrement={handleIncrement}
+        onDecrement={handleDecrement}
+        onRemove={handleRemove}
         onClear={handleClearCart}
       />
 
       <FloatingCartButton
         itemsCount={cartItemsCount}
-        onClick={() => setIsCartOpen(!isCartOpen)}
+        onClick={handleCartClick}
       />
+
+      <AnimatePresence>
+        {selectedItem && (
+          <ImageModal
+            item={selectedItem}
+            onClose={handleCloseModal}
+          />
+        )}
+      </AnimatePresence>
     </main>
   );
 }
