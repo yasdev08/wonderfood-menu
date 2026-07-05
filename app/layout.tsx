@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/logo1.png",
+        url: "/logo1.svg",
         width: 1200,
         height: 630,
         alt: "Wonder Food's logo",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Wonder Food's Maraval - Café & desserts premium",
     description: "Découvrez des crêpes, gaufres, tiramisu et boissons signature chez Wonder Food's. Parcourez notre menu et passez votre commande.",
-    images: ["/logo1.png"],
+    images: ["/logo1.svg"],
   },
 };
 

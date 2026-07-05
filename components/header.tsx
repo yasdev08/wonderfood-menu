@@ -32,7 +32,7 @@ export function Header({ onSearch, cartItemsCount, onCartClick }: HeaderProps) {
         <div className="flex-shrink-0">
           <Image
             alt="Wonder food's logo"
-            src="/logo1.png"
+            src="/logo1.svg"
             width={100}
             height={100}
             priority
