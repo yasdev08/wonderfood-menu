@@ -3,6 +3,14 @@
 import { useState } from "react";
 import { Search, ShoppingCart, Menu, X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
 interface HeaderProps {
   onSearch: (term: string) => void;
   cartItemsCount: number;
@@ -33,8 +41,10 @@ export function Header({ onSearch, cartItemsCount, onCartClick }: HeaderProps) {
           <Image
             alt="Wonder food's logo"
             src="/logo1.svg"
-            width={100}
-            height={50}
+            width={120}
+            height={30}
+            className="h-auto"
+            onClick={scrollToTop}
             priority
           />
         </div>
