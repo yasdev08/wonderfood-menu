@@ -53,19 +53,19 @@ export function ImageModal({ item, onClose }: ImageModalProps) {
         animate={{ scale: 1, y: 0, opacity: 1 }}
         exit={{ scale: 0.95, y: 15, opacity: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        className="relative max-h-[85vh] max-w-[95vw] w-full sm:max-w-2xl overflow-hidden rounded-xl bg-card border border-border shadow-2xl flex flex-col"
+        className="relative max-h-[85vh] max-w-[95vw] overflow-hidden rounded-xl bg-card border border-border shadow-2xl flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="overflow-hidden relative bg-black/20 flex-1 w-full h-[40vh] sm:h-[50vh]">
+        <div className="overflow-hidden flex items-center justify-center bg-black/20 flex-1">
           {imageSrc ? (
             <Image
               src={imageSrc}
               alt={item.name}
-              fill
-              sizes="(max-width: 640px) 95vw, 672px"
+              width={800}
+              height={600}
               priority
               decoding="async"
-              className="object-contain"
+              className="max-h-[70vh] max-w-full w-auto object-contain"
             />
           ) : (
             <div className="flex h-full items-center justify-center p-4 text-center">

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MenuItem } from "@/app/page";
 import { Plus, Maximize2 } from "lucide-react";
 import Image from "next/image";
@@ -102,7 +102,26 @@ function FoodCardComponent({ item, onAddToCart, onZoom }: FoodCardProps) {
   const [isAdded, setIsAdded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  
   const imageSrc = getImageSrc(item);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.05, rootMargin: "0px 0px -50px 0px" }
+    );
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+    return () => observer.disconnect();
+  }, []);
 
   const handleAddToCart = () => {
     onAddToCart(item, quantity);
@@ -113,7 +132,10 @@ function FoodCardComponent({ item, onAddToCart, onZoom }: FoodCardProps) {
 
   return (
     <div
-      className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-[5px] hover:border-accent animate-fade-in-up"
+      ref={ref}
+      className={`group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-[5px] hover:border-accent ${
+        isVisible ? "animate-fade-in-up" : "opacity-0 translate-y-[20px]"
+      }`}
     >
       <div 
         onClick={() => onZoom(item)}
