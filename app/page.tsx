@@ -10,6 +10,9 @@ import { FloatingCartButton } from "@/components/floating-cart-button";
 import { Footer } from "@/components/footer";
 import { AnimatePresence } from "framer-motion";
 import { ImageModal } from "@/components/image-modal";
+import { ToppingModal } from "@/components/topping-modal";
+
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface MenuItem {
   id: string;
@@ -20,18 +23,95 @@ export interface MenuItem {
   description?: string;
 }
 
-export interface CartItem {
-  item: MenuItem;
-  quantity: number;
+export interface Topping {
+  id: string;
+  name: string;
+  price: number;
 }
 
+export interface CartItem {
+  /** Unique ID: `${menuItem.id}` or `${menuItem.id}:${sortedToppingIds}` */
+  id: string;
+  item: MenuItem;
+  quantity: number;
+  toppings: Topping[];
+}
+
+// ─── Helpers (exported so cart-drawer can import them) ────────────────────────
+
+export const getCartItemId = (itemId: string, toppings: Topping[]): string => {
+  const key = toppings
+    .map((t) => t.id)
+    .sort()
+    .join(",");
+  return key ? `${itemId}:${key}` : itemId;
+};
+
+export const getCartItemUnitPrice = (cartItem: CartItem): number =>
+  cartItem.item.price + cartItem.toppings.reduce((sum, t) => sum + t.price, 0);
+
+// ─── Category Configuration ───────────────────────────────────────────────────
+
+/**
+ * The 8 public-facing categories in exact display order.
+ * Hidden categories (Tartes, Boxes, Desserts, Savory, Bottled Drinks,
+ * Supplements) are kept in MENU_ITEMS for future use but not rendered.
+ */
+export const VISIBLE_CATEGORIES = [
+  "Specials",
+  "Crepes",
+  "Waffles",
+  "Sundaes",
+  "Milkshakes",
+  "Fresh Juices",
+  "Tiramisu",
+  "Hot Beverages",
+  "Tartes",
+] as const;
+
+export type VisibleCategory = (typeof VISIBLE_CATEGORIES)[number];
+
+const VISIBLE_CATEGORY_SET = new Set<string>(VISIBLE_CATEGORIES);
+
+/** French customer-facing labels keyed by internal category value */
+export const CATEGORY_LABELS: Record<string, string> = {
+  Specials: "Special",
+  Crepes: "Crêpes",
+  Waffles: "Gaufres",
+  Sundaes: "Sundae",
+  Milkshakes: "Milkshake",
+  "Fresh Juices": "Jus",
+  Tiramisu: "Tiramisu",
+  "Hot Beverages": "Boissons Chaudes",
+};
+
+/** Only these 4 categories open the toppings customisation modal */
+const CUSTOMIZABLE_CATEGORIES = new Set<string>([
+  "Crepes",
+  "Waffles",
+  "Milkshakes",
+  "Tiramisu",
+]);
+
+// ─── Toppings (converted from existing Supplement products) ───────────────────
+
+export const TOPPINGS: Topping[] = [
+  { id: "topping-standard", name: "Topping Standard", price: 150 },
+  { id: "topping-nutella", name: "Nutella", price: 100 },
+  { id: "topping-kiwi", name: "Kiwi", price: 200 },
+  { id: "topping-banane", name: "Banane", price: 150 },
+];
+
+// ─── Menu Items ───────────────────────────────────────────────────────────────
+
 const MENU_ITEMS: MenuItem[] = [
+  // ── Specials ──────────────────────────────────────────────────────────────
   {
     id: "1",
     name: "Crepe Dubai",
     price: 500,
     category: "Specials",
-    image: "nutella.jpg",
+    image: "/images/menu/crepe-dubai.png",
     description:
       "Une crêpe croustillante premium inspirée des saveurs de Dubaï, nappée de chocolat fin.",
   },
@@ -40,7 +120,7 @@ const MENU_ITEMS: MenuItem[] = [
     name: "La Snickers",
     price: 250,
     category: "Specials",
-    image: "crepe.jpg",
+    image: "/images/menu/la-snickers.png",
     description:
       "Une barre spéciale gourmande aux éclats de cacahuètes, caramel et chocolat façon Snickers.",
   },
@@ -49,73 +129,11 @@ const MENU_ITEMS: MenuItem[] = [
     name: "Cake Dubai",
     price: 1000,
     category: "Specials",
-    image: "crepe1.jpg",
+    image: "/images/menu/cake-dubai.png",
     description:
       "Notre dessert signature : un gâteau riche et ultra-gourmand aux saveurs orientales modernes.",
   },
-  {
-    id: "4",
-    name: "Waffle Nutella",
-    price: 400,
-    category: "Waffles",
-    image: "crepe2.jpg",
-    description:
-      "Gaufre classique, croustillante à l'extérieur et moelleuse à l'intérieur, généreusement nappée de Nutella.",
-  },
-  {
-    id: "5",
-    name: "Waffle Nutella Banane",
-    price: 500,
-    category: "Waffles",
-    image: "crepe3.jpg",
-    description:
-      "Gaufre dorée surmontée de rondelles de bananes fraîches et d'un coulis de Nutella.",
-  },
-  {
-    id: "6",
-    name: "Waffle Nutella Fraise",
-    price: 500,
-    category: "Waffles",
-    image: "crepe4.jpg",
-    description:
-      "L'alliance parfaite des fraises fraîches acidulées et de la douceur du Nutella sur une gaufre chaude.",
-  },
-  {
-    id: "7",
-    name: "Waffle Nutella Kinder Bueno",
-    price: 600,
-    category: "Waffles",
-    image: "crepe5.jpg",
-    description:
-      "Gaufre gourmande accompagnée de morceaux de Kinder Bueno croustillants et de Nutella.",
-  },
-  {
-    id: "8",
-    name: "Waffle Nutella Snickers",
-    price: 500,
-    category: "Waffles",
-    image: "mojito.jpg",
-    description:
-      "Gaufre intense avec morceaux de Snickers, éclats de cacahuètes croquantes et nappage chocolat.",
-  },
-  {
-    id: "9",
-    name: "Waffle Nutella Oreo",
-    price: 500,
-    category: "Waffles",
-    image: "/images/menu/waffle-nutella-oreo.png",
-    description:
-      "Pour les amoureux de biscuits : gaufre saupoudrée d'Oreo brisés et de sauce Nutella.",
-  },
-  {
-    id: "10",
-    name: "Waffle Nutella Lotus",
-    price: 500,
-    category: "Waffles",
-    image: "/images/menu/waffle-nutella-lotus.png",
-    description:
-      "Gaufre délicieuse parfumée au biscuit Speculoos Lotus croquant et Nutella.",
-  },
+  // ── Tartes (hidden – kept for future use) ─────────────────────────────────
   {
     id: "11",
     name: "Tarte Fruits",
@@ -161,6 +179,7 @@ const MENU_ITEMS: MenuItem[] = [
     description:
       "Notre plus grande tarte événementielle, une explosion de garnitures et de douceurs surprises.",
   },
+  // ── Crepes ────────────────────────────────────────────────────────────────
   {
     id: "16",
     name: "Crepe Simple",
@@ -269,14 +288,6 @@ const MENU_ITEMS: MenuItem[] = [
       "Quatre fruits de saison minutieusement coupés pour un maximum de vitamines.",
   },
   {
-    id: "28",
-    name: "Crepe 3 Fruits",
-    price: 650,
-    category: "Crepes",
-    image: "/images/menu/crepe-3-fruits.png",
-    description: "Un trio fruité harmonieux enveloppé dans notre pâte secrète.",
-  },
-  {
     id: "29",
     name: "Crepe Pistachio",
     price: 500,
@@ -286,15 +297,6 @@ const MENU_ITEMS: MenuItem[] = [
       "Nappée d'une crème de pistache onctueuse 100% pure et savoureuse.",
   },
   {
-    id: "30",
-    name: "Crepe La Cherry",
-    price: 600,
-    category: "Crepes",
-    image: "/images/menu/crepe-la-cherry.png",
-    description:
-      "Garnie d'un coulis de cerises intenses aux notes douces-amères.",
-  },
-  {
     id: "31",
     name: "Crepe Ananas",
     price: 650,
@@ -302,15 +304,6 @@ const MENU_ITEMS: MenuItem[] = [
     image: "/images/menu/crepe-ananas.png",
     description:
       "Une touche exotique rafraîchissante à base de dés d'ananas juteux.",
-  },
-  {
-    id: "32",
-    name: "Crepe Nutella Standard",
-    price: 550,
-    category: "Crepes",
-    image: "/images/menu/crepe-nutella.png",
-    description:
-      "La crêpe indémodable étalée d'une couche généreuse de Nutella authentique.",
   },
   {
     id: "33",
@@ -357,6 +350,7 @@ const MENU_ITEMS: MenuItem[] = [
     description:
       "Le chef-d'œuvre suprême de l'établissement : énorme, ultra-garnie et spectaculaire.",
   },
+  // ── Boxes (hidden – kept for future use) ──────────────────────────────────
   {
     id: "38",
     name: "Box Fruita",
@@ -384,6 +378,7 @@ const MENU_ITEMS: MenuItem[] = [
     description:
       "Notre box signature premium regroupant un mix des meilleurs desserts de la maison.",
   },
+  // ── Desserts (hidden – kept for future use) ────────────────────────────────
   {
     id: "41",
     name: "Cheesecake",
@@ -411,6 +406,7 @@ const MENU_ITEMS: MenuItem[] = [
     description:
       "Gâteau moelleux au cœur de chocolat chaud coulant, servi avec sa boule de glace vanille.",
   },
+  // ── Savory (hidden – kept for future use) ─────────────────────────────────
   {
     id: "44",
     name: "Fajitas",
@@ -420,6 +416,7 @@ const MENU_ITEMS: MenuItem[] = [
     description:
       "La seule pause salée : une tortilla garnie de poulet grillé assaisonné, poivrons et fromage fondant.",
   },
+  // ── Sundaes ───────────────────────────────────────────────────────────────
   {
     id: "45",
     name: "Sundae Ferrero",
@@ -483,6 +480,7 @@ const MENU_ITEMS: MenuItem[] = [
     description:
       "Glace douce parsemée de noix de coco râpée et brisures de Raffaello blanches.",
   },
+  // ── Tiramisu ──────────────────────────────────────────────────────────────
   {
     id: "52",
     name: "Tiramisu Nutella",
@@ -582,6 +580,7 @@ const MENU_ITEMS: MenuItem[] = [
     description:
       "Un grand classique moderne parfumé à la cannelle et au biscuit Speculoos.",
   },
+  // ── Fresh Juices ──────────────────────────────────────────────────────────
   {
     id: "63",
     name: "Jus Orange",
@@ -670,6 +669,7 @@ const MENU_ITEMS: MenuItem[] = [
     description:
       "Un savant mélange de plusieurs fruits frais mixés ensemble pour une explosion gustative.",
   },
+  // ── Milkshakes ────────────────────────────────────────────────────────────
   {
     id: "73",
     name: "Milkshake Banane",
@@ -742,6 +742,7 @@ const MENU_ITEMS: MenuItem[] = [
     description:
       "Milkshake frappé mixé aux épices fines et miettes de Lotus Speculoos.",
   },
+  // ── Hot Beverages ─────────────────────────────────────────────────────────
   {
     id: "81",
     name: "Café",
@@ -787,6 +788,7 @@ const MENU_ITEMS: MenuItem[] = [
     description:
       "Lait chaud entier réconfortant mélangé à un cacao premium de qualité.",
   },
+  // ── Bottled Drinks (hidden – kept for future use) ──────────────────────────
   {
     id: "86",
     name: "Eau Minérale (Ifri)",
@@ -822,6 +824,7 @@ const MENU_ITEMS: MenuItem[] = [
     description:
       "Canette de boisson gazeuse fraîche au choix (Coca-Cola, Pepsi ou Selecto).",
   },
+  // ── Supplements (hidden – converted to toppings) ───────────────────────────
   {
     id: "90",
     name: "Toppings Standard",
@@ -858,7 +861,73 @@ const MENU_ITEMS: MenuItem[] = [
     description:
       "Des rondelles de bananes fraîches découpées minute à rajouter sur la base de votre dessert préféré.",
   },
+  // ── Waffles ───────────────────────────────────────────────────────────────
+  {
+    id: "4",
+    name: "Waffle Nutella",
+    price: 400,
+    category: "Waffles",
+    image: "/images/menu/waffle-nutella.png",
+    description:
+      "Gaufre classique, croustillante à l'extérieur et moelleuse à l'intérieur, généreusement nappée de Nutella.",
+  },
+  {
+    id: "5",
+    name: "Waffle Nutella Banane",
+    price: 500,
+    category: "Waffles",
+    image: "/images/menu/waffle-nutella-banane.png",
+    description:
+      "Gaufre dorée surmontée de rondelles de bananes fraîches et d'un coulis de Nutella.",
+  },
+  {
+    id: "6",
+    name: "Waffle Nutella Fraise",
+    price: 500,
+    category: "Waffles",
+    image: "/images/menu/waffle-nutella-fraise.png",
+    description:
+      "L'alliance parfaite des fraises fraîches acidulées et de la douceur du Nutella sur une gaufre chaude.",
+  },
+  {
+    id: "7",
+    name: "Waffle Nutella Kinder Bueno",
+    price: 600,
+    category: "Waffles",
+    image: "/images/menu/waffle-nutella-kinder-bueno.png",
+    description:
+      "Gaufre gourmande accompagnée de morceaux de Kinder Bueno croustillants et de Nutella.",
+  },
+  {
+    id: "8",
+    name: "Waffle Nutella Snickers",
+    price: 500,
+    category: "Waffles",
+    image: "/images/menu/waffle-nutella-snickers.png",
+    description:
+      "Gaufre intense avec morceaux de Snickers, éclats de cacahuètes croquantes et nappage chocolat.",
+  },
+  {
+    id: "9",
+    name: "Waffle Nutella Oreo",
+    price: 500,
+    category: "Waffles",
+    image: "/images/menu/waffle-nutella-oreo.png",
+    description:
+      "Pour les amoureux de biscuits : gaufre saupoudrée d'Oreo brisés et de sauce Nutella.",
+  },
+  {
+    id: "10",
+    name: "Waffle Nutella Lotus",
+    price: 500,
+    category: "Waffles",
+    image: "/images/menu/waffle-nutella-lotus.png",
+    description:
+      "Gaufre délicieuse parfumée au biscuit Speculoos Lotus croquant et Nutella.",
+  },
 ];
+
+// ─── Page Component ───────────────────────────────────────────────────────────
 
 export default function Home() {
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -866,24 +935,30 @@ export default function Home() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("");
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
+  const [customizingItem, setCustomizingItem] = useState<{
+    item: MenuItem;
+    quantity: number;
+  } | null>(null);
   const categoryRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
-  const categories = useMemo(
-    () => Array.from(new Set(MENU_ITEMS.map((item) => item.category))),
-    [],
-  );
-
+  // Only items from the 8 visible categories; respects search term
   const filteredItems = useMemo(() => {
     const term = searchTerm.toLowerCase();
-    return MENU_ITEMS.filter(
-      (item) =>
+    return MENU_ITEMS.filter((item) => {
+      if (!VISIBLE_CATEGORY_SET.has(item.category)) return false;
+      if (!term) return true;
+      return (
         item.name.toLowerCase().includes(term) ||
-        item.category.toLowerCase().includes(term),
-    );
+        item.description?.toLowerCase().includes(term) ||
+        CATEGORY_LABELS[item.category]?.toLowerCase().includes(term) ||
+        item.category.toLowerCase().includes(term)
+      );
+    });
   }, [searchTerm]);
 
+  // Grouped in VISIBLE_CATEGORIES order (not insertion order of MENU_ITEMS)
   const groupedByCategory = useMemo(() => {
-    return categories.reduce(
+    return VISIBLE_CATEGORIES.reduce(
       (acc, category) => {
         const items = filteredItems.filter(
           (item) => item.category === category,
@@ -895,52 +970,64 @@ export default function Home() {
       },
       {} as Record<string, MenuItem[]>,
     );
-  }, [categories, filteredItems]);
+  }, [filteredItems]);
+
+  // Ordered list of categories that currently have visible items
+  const categories = useMemo(
+    () => VISIBLE_CATEGORIES.filter((cat) => cat in groupedByCategory),
+    [groupedByCategory],
+  );
+
+  // ── Cart handlers ──────────────────────────────────────────────────────────
 
   const handleAddToCart = useCallback(
-    (item: MenuItem, quantity: number = 1) => {
+    (item: MenuItem, quantity: number = 1, toppings: Topping[] = []) => {
       setCart((prev) => {
-        const existing = prev.find((ci) => ci.item.id === item.id);
+        const cartItemId = getCartItemId(item.id, toppings);
+        const existing = prev.find((ci) => ci.id === cartItemId);
         if (existing) {
           return prev.map((ci) =>
-            ci.item.id === item.id
+            ci.id === cartItemId
               ? { ...ci, quantity: ci.quantity + quantity }
               : ci,
           );
         }
-        return [...prev, { item, quantity }];
+        return [...prev, { id: cartItemId, item, quantity, toppings }];
       });
     },
     [],
   );
 
-  const handleIncrement = useCallback(
-    (item: MenuItem) => {
-      handleAddToCart(item, 1);
-    },
-    [handleAddToCart],
-  );
+  const handleIncrement = useCallback((cartItemId: string) => {
+    setCart((prev) =>
+      prev.map((ci) =>
+        ci.id === cartItemId ? { ...ci, quantity: ci.quantity + 1 } : ci,
+      ),
+    );
+  }, []);
 
-  const handleDecrement = useCallback((itemId: string) => {
+  const handleDecrement = useCallback((cartItemId: string) => {
     setCart((prev) => {
-      const existing = prev.find((ci) => ci.item.id === itemId);
+      const existing = prev.find((ci) => ci.id === cartItemId);
       if (existing && existing.quantity > 1) {
         return prev.map((ci) =>
-          ci.item.id === itemId ? { ...ci, quantity: ci.quantity - 1 } : ci,
+          ci.id === cartItemId ? { ...ci, quantity: ci.quantity - 1 } : ci,
         );
       }
-      return prev.filter((ci) => ci.item.id !== itemId);
+      return prev.filter((ci) => ci.id !== cartItemId);
     });
   }, []);
 
-  const handleRemove = useCallback((itemId: string) => {
-    setCart((prev) => prev.filter((ci) => ci.item.id !== itemId));
+  const handleRemove = useCallback((cartItemId: string) => {
+    setCart((prev) => prev.filter((ci) => ci.id !== cartItemId));
   }, []);
 
   const handleClearCart = useCallback(() => {
     setCart([]);
     setIsCartOpen(false);
   }, []);
+
+  // ── UI handlers ────────────────────────────────────────────────────────────
 
   const handleCartClick = useCallback(() => {
     setIsCartOpen((prev) => !prev);
@@ -953,7 +1040,7 @@ export default function Home() {
   const scrollToCategory = useCallback((category: string) => {
     const element = categoryRefs.current[category];
     if (element) {
-      const yOffset = -140; // Offset for sticky header + category nav
+      const yOffset = -140;
       const y =
         element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: "smooth" });
@@ -968,12 +1055,34 @@ export default function Home() {
     setSelectedItem(null);
   }, []);
 
+  // ── Topping modal handlers ─────────────────────────────────────────────────
+
+  const handleOpenCustomize = useCallback(
+    (item: MenuItem, quantity: number) => {
+      setCustomizingItem({ item, quantity });
+    },
+    [],
+  );
+
+  const handleConfirmCustomize = useCallback(
+    (item: MenuItem, quantity: number, toppings: Topping[]) => {
+      handleAddToCart(item, quantity, toppings);
+    },
+    [handleAddToCart],
+  );
+
+  const handleCloseCustomize = useCallback(() => {
+    setCustomizingItem(null);
+  }, []);
+
+  // ── Intersection observer for active category highlight ────────────────────
+
   const cartItemsCount = cart.reduce((sum, ci) => sum + ci.quantity, 0);
 
   useEffect(() => {
     const observerOptions = {
       root: null,
-      rootMargin: "-25% 0px -70% 0px", // triggers when section is in top portion of screen
+      rootMargin: "-25% 0px -70% 0px",
       threshold: 0,
     };
 
@@ -991,7 +1100,7 @@ export default function Home() {
     );
     const observedElements: HTMLDivElement[] = [];
 
-    Object.entries(categoryRefs.current).forEach(([_, el]) => {
+    Object.entries(categoryRefs.current).forEach(([, el]) => {
       if (el) {
         observer.observe(el);
         observedElements.push(el);
@@ -999,11 +1108,11 @@ export default function Home() {
     });
 
     return () => {
-      observedElements.forEach((el) => {
-        observer.unobserve(el);
-      });
+      observedElements.forEach((el) => observer.unobserve(el));
     };
   }, [groupedByCategory]);
+
+  // ── Render ─────────────────────────────────────────────────────────────────
 
   return (
     <main className="min-h-screen bg-background">
@@ -1017,30 +1126,38 @@ export default function Home() {
 
       {!searchTerm && (
         <CategoryNav
-          categories={Object.keys(groupedByCategory)}
+          categories={categories}
+          categoryLabels={CATEGORY_LABELS}
           activeCategory={activeCategory}
           onCategoryClick={scrollToCategory}
         />
       )}
 
       <div id="menu" className="max-w-7xl mx-auto px-4 py-12 sm:py-16">
-        {Object.entries(groupedByCategory).map(([category, items]) => (
-          <div
-            key={category}
-            id={category}
-            ref={(el) => {
-              if (el) categoryRefs.current[category] = el;
-            }}
-            className="mb-16 scroll-mt-36"
-          >
-            <MenuSection
-              category={category}
-              items={items}
-              onAddToCart={handleAddToCart}
-              onZoom={handleZoom}
-            />
-          </div>
-        ))}
+        {categories.map((category) => {
+          const items = groupedByCategory[category];
+          if (!items) return null;
+          return (
+            <div
+              key={category}
+              id={category}
+              ref={(el) => {
+                if (el) categoryRefs.current[category] = el;
+              }}
+              className="mb-16 scroll-mt-36"
+            >
+              <MenuSection
+                category={category}
+                label={CATEGORY_LABELS[category]}
+                items={items}
+                customizable={CUSTOMIZABLE_CATEGORIES.has(category)}
+                onAddToCart={handleAddToCart}
+                onCustomize={handleOpenCustomize}
+                onZoom={handleZoom}
+              />
+            </div>
+          );
+        })}
 
         {filteredItems.length === 0 && (
           <div className="text-center py-12">
@@ -1071,6 +1188,18 @@ export default function Home() {
       <AnimatePresence>
         {selectedItem && (
           <ImageModal item={selectedItem} onClose={handleCloseModal} />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {customizingItem && (
+          <ToppingModal
+            item={customizingItem.item}
+            toppings={TOPPINGS}
+            initialQuantity={customizingItem.quantity}
+            onConfirm={handleConfirmCustomize}
+            onClose={handleCloseCustomize}
+          />
         )}
       </AnimatePresence>
     </main>

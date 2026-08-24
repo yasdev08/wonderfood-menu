@@ -1,6 +1,6 @@
 "use client";
 
-import { MenuItem, CartItem } from "@/app/page";
+import { CartItem, getCartItemUnitPrice } from "@/app/page";
 import { X, Trash2, ShoppingCart, ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,14 +9,28 @@ interface CartDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   items: CartItem[];
-  onIncrement: (item: MenuItem) => void;
-  onDecrement: (itemId: string) => void;
-  onRemove: (itemId: string) => void;
+  /** Increment by unique cart item ID */
+  onIncrement: (cartItemId: string) => void;
+  /** Decrement / remove by unique cart item ID */
+  onDecrement: (cartItemId: string) => void;
+  /** Remove entirely by unique cart item ID */
+  onRemove: (cartItemId: string) => void;
   onClear: () => void;
 }
 
-// Remplacez ce numéro par le numéro WhatsApp de votre restaurant (avec le code pays, ex: 213 pour l'Algérie)
 const RESTAURANT_WHATSAPP_NUMBER = "213660570102";
+
+/** Emoji per internal category key */
+const CATEGORY_EMOJI: Record<string, string> = {
+  Specials: "⭐",
+  Crepes: "🥞",
+  Waffles: "🧇",
+  Sundaes: "🍨",
+  Milkshakes: "🥤",
+  "Fresh Juices": "🧃",
+  Tiramisu: "🍮",
+  "Hot Beverages": "☕",
+};
 
 export function CartDrawer({
   isOpen,
@@ -29,7 +43,7 @@ export function CartDrawer({
 }: CartDrawerProps) {
   const [step, setStep] = useState<"cart" | "checkout">("cart");
 
-  // Checkout Form States
+  // Checkout form state
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [deliveryMethod, setDeliveryMethod] = useState<
@@ -54,7 +68,6 @@ export function CartDrawer({
     };
   }, [isOpen]);
 
-  // Reset steps and form when closing drawer
   useEffect(() => {
     if (!isOpen) {
       const timer = setTimeout(() => {
@@ -65,7 +78,11 @@ export function CartDrawer({
     }
   }, [isOpen]);
 
-  const total = items.reduce((sum, ci) => sum + ci.item.price * ci.quantity, 0);
+  // Total including toppings
+  const total = items.reduce(
+    (sum, ci) => sum + getCartItemUnitPrice(ci) * ci.quantity,
+    0,
+  );
   const totalQuantity = items.reduce((sum, ci) => sum + ci.quantity, 0);
 
   const formatOrderMessage = () => {
@@ -83,17 +100,28 @@ export function CartDrawer({
     if (deliveryMethod === "livraison" && address) {
       text += `📍 *Adresse de livraison:* ${address}\n`;
     }
-
     if (notes) {
       text += `📝 *Notes client:* ${notes}\n`;
     }
 
     text += `\n-------------------------------\n`;
-    text += `🛍️ *Articles commandés :*\n`;
+    text += `🛍️ *Articles commandés :*\n\n`;
 
-    items.forEach(({ item, quantity }) => {
-      const itemTotal = item.price * quantity;
-      text += `- ${quantity}x *${item.name}* (${item.price} DA) = *${itemTotal} DA*\n`;
+    items.forEach((cartItem) => {
+      const { item, quantity, toppings } = cartItem;
+      const emoji = CATEGORY_EMOJI[item.category] ?? "•";
+      const unitPrice = getCartItemUnitPrice(cartItem);
+      const lineTotal = unitPrice * quantity;
+
+      text += `${emoji} *${item.name}*\n`;
+
+      if (toppings.length > 0) {
+        toppings.forEach((t) => {
+          text += `   ➕ ${t.name} (+${t.price} DA)\n`;
+        });
+      }
+
+      text += `   x${quantity} — *${lineTotal} DA*\n\n`;
     });
 
     text += `-------------------------------\n`;
@@ -119,10 +147,8 @@ export function CartDrawer({
 
     const message = formatOrderMessage();
     const whatsappUrl = `https://wa.me/${RESTAURANT_WHATSAPP_NUMBER}?text=${message}`;
-
     window.open(whatsappUrl, "_blank");
 
-    // Clear cart and close drawer
     onClear();
     onClose();
   };
@@ -182,7 +208,7 @@ export function CartDrawer({
             {/* Content */}
             <div className="flex-1 overflow-y-auto p-6">
               {step === "cart" ? (
-                /* CART STEP */
+                /* ── CART STEP ── */
                 items.length === 0 ? (
                   <div className="text-center py-16 flex flex-col items-center justify-center">
                     <ShoppingCart className="w-16 h-16 text-muted-foreground mb-4 opacity-40" />
@@ -199,71 +225,95 @@ export function CartDrawer({
                 ) : (
                   <motion.div layout className="space-y-3">
                     <AnimatePresence mode="sync" initial={false}>
-                      {items.map(({ item, quantity }) => (
-                        <motion.div
-                          layout
-                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.9, x: 50 }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 500,
-                            damping: 35,
-                          }}
-                          key={item.id}
-                          className="flex items-center justify-between bg-muted/40 p-4 rounded-xl border border-border/50 hover:border-accent/40 hover:bg-muted/60 transition-all"
-                        >
-                          <div className="flex-1 min-w-0">
-                            <p className="font-semibold text-foreground truncate">
-                              {item.name}
-                            </p>
-                            <p className="text-xs uppercase tracking-wider text-muted-foreground mt-0.5">
-                              {item.category}
-                            </p>
-                          </div>
+                      {items.map((cartItem) => {
+                        const unitPrice = getCartItemUnitPrice(cartItem);
+                        const lineTotal = unitPrice * cartItem.quantity;
+                        return (
+                          <motion.div
+                            layout
+                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.9, x: 50 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 500,
+                              damping: 35,
+                            }}
+                            key={cartItem.id}
+                            className="flex items-start justify-between bg-muted/40 p-4 rounded-xl border border-border/50 hover:border-accent/40 hover:bg-muted/60 transition-all"
+                          >
+                            {/* Item info */}
+                            <div className="flex-1 min-w-0">
+                              <p className="font-semibold text-foreground truncate">
+                                {cartItem.item.name}
+                              </p>
 
-                          <div className="flex items-center gap-3 ml-4">
-                            {/* Quantity selector inside Cart Drawer */}
-                            <div className="flex items-center rounded-lg bg-primary/15 border border-border/40 p-0.5">
-                              <button
-                                type="button"
-                                onClick={() => onDecrement(item.id)}
-                                className="px-1.5 py-0.5 text-accent hover:text-accent/80 font-bold text-xs cursor-pointer"
-                              >
-                                -
-                              </button>
-                              <span className="px-1 text-xs font-semibold text-foreground min-w-[14px] text-center">
-                                {quantity}
-                              </span>
-                              <button
-                                type="button"
-                                onClick={() => onIncrement(item)}
-                                className="px-1.5 py-0.5 text-accent hover:text-accent/80 font-bold text-xs cursor-pointer"
-                              >
-                                +
-                              </button>
+                              {/* Toppings list */}
+                              {cartItem.toppings.length > 0 && (
+                                <div className="mt-1 space-y-0.5">
+                                  {cartItem.toppings.map((t) => (
+                                    <p
+                                      key={t.id}
+                                      className="text-xs text-accent/80 leading-tight"
+                                    >
+                                      + {t.name}
+                                    </p>
+                                  ))}
+                                </div>
+                              )}
+
+                              <p className="text-xs uppercase tracking-wider text-muted-foreground mt-1">
+                                {cartItem.item.category}
+                              </p>
                             </div>
 
-                            <span className="text-base font-bold text-accent whitespace-nowrap min-w-[60px] text-right">
-                              {item.price * quantity} DA
-                            </span>
-                            <motion.button
-                              whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.9 }}
-                              onClick={() => onRemove(item.id)}
-                              className="p-2 hover:bg-destructive/15 text-white rounded-lg transition-colors border border-transparent hover:border-destructive/25 cursor-pointer flex items-center justify-center"
-                              aria-label={`Retirer ${item.name}`}
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </motion.button>
-                          </div>
-                        </motion.div>
-                      ))}
+                            {/* Controls */}
+                            <div className="flex items-center gap-2 ml-3 flex-shrink-0">
+                              {/* Quantity */}
+                              <div className="flex items-center rounded-lg bg-primary/15 border border-border/40 p-0.5">
+                                <button
+                                  type="button"
+                                  onClick={() => onDecrement(cartItem.id)}
+                                  className="px-1.5 py-0.5 text-accent hover:text-accent/80 font-bold text-xs cursor-pointer"
+                                >
+                                  -
+                                </button>
+                                <span className="px-1 text-xs font-semibold text-foreground min-w-[14px] text-center">
+                                  {cartItem.quantity}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => onIncrement(cartItem.id)}
+                                  className="px-1.5 py-0.5 text-accent hover:text-accent/80 font-bold text-xs cursor-pointer"
+                                >
+                                  +
+                                </button>
+                              </div>
+
+                              {/* Price (unit × qty, includes toppings) */}
+                              <span className="text-sm font-bold text-accent whitespace-nowrap min-w-[56px] text-right">
+                                {lineTotal} DA
+                              </span>
+
+                              {/* Remove */}
+                              <motion.button
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                onClick={() => onRemove(cartItem.id)}
+                                className="p-2 hover:bg-destructive/15 text-white rounded-lg transition-colors border border-transparent hover:border-destructive/25 cursor-pointer flex items-center justify-center"
+                                aria-label={`Retirer ${cartItem.item.name}`}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </motion.button>
+                            </div>
+                          </motion.div>
+                        );
+                      })}
                     </AnimatePresence>
                   </motion.div>
                 )
               ) : (
-                /* CHECKOUT STEP */
+                /* ── CHECKOUT STEP ── */
                 <form onSubmit={handleCheckoutSubmit} className="space-y-5">
                   <div className="space-y-4">
                     {/* Full Name */}
@@ -295,7 +345,7 @@ export function CartDrawer({
                       )}
                     </div>
 
-                    {/* Phone Number */}
+                    {/* Phone */}
                     <div>
                       <label
                         htmlFor="phone"
@@ -327,7 +377,7 @@ export function CartDrawer({
                       )}
                     </div>
 
-                    {/* Delivery Method Options */}
+                    {/* Delivery method */}
                     <div>
                       <label className="block text-sm font-medium text-foreground mb-2">
                         Type de commande
@@ -358,7 +408,7 @@ export function CartDrawer({
                       </div>
                     </div>
 
-                    {/* Delivery Address (Conditional) */}
+                    {/* Delivery address (conditional) */}
                     {deliveryMethod === "livraison" && (
                       <div className="transition-all duration-300">
                         <label
@@ -382,7 +432,7 @@ export function CartDrawer({
                               ? "border-destructive focus:ring-destructive"
                               : "border-border"
                           }`}
-                          placeholder="Rue, N° de porte, Quartier (Maraval, etc.), Repères..."
+                          placeholder="Rue, N° de porte, Quartier, Repères..."
                         />
                         {errors.address && (
                           <p className="text-xs text-destructive mt-1">
@@ -392,7 +442,7 @@ export function CartDrawer({
                       </div>
                     )}
 
-                    {/* Special Instructions (Notes) */}
+                    {/* Notes */}
                     <div>
                       <label
                         htmlFor="notes"
@@ -411,7 +461,7 @@ export function CartDrawer({
                     </div>
                   </div>
 
-                  {/* Order Summary Box */}
+                  {/* Order summary */}
                   <div className="bg-primary-foreground/5 border border-border p-4 rounded-xl space-y-2">
                     <h4 className="text-xs uppercase tracking-wider text-accent font-bold">
                       Récapitulatif

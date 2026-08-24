@@ -105,7 +105,7 @@ export function Footer() {
         <div className="flex items-center gap-1.5 bg-primary-foreground/5 py-1.5 px-3 rounded-full border border-primary-foreground/10 shadow-sm transition-colors hover:bg-primary-foreground/10">
           <span>Ce site a été créé par</span>
           <a
-            href="https://mbpub.vercel.app"
+            href="https://brahimpub.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
             className="font-bold text-accent hover:underline flex items-center gap-1"
