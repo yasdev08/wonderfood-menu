@@ -66,7 +66,7 @@ export function Hero() {
         >
           Goûtez la magie de
           <br />
-          <span className="text-accent">Wonder Food&apos;s</span>
+          <span className="text-accent">Wonder Food&apos;s Maraval</span>
         </motion.h2>
 
         <motion.p
