@@ -74,7 +74,7 @@ export function Hero() {
           className="text-lg sm:text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-8"
         >
           Crêpes, gaufres, tiramisu et boissons signature préparés avec passion
-          à Maraval
+          à Maraval.
         </motion.p>
 
         <motion.div
