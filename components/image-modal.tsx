@@ -71,7 +71,7 @@ export function ImageModal({ item, onClose }: ImageModalProps) {
             <div className="flex h-full items-center justify-center p-4 text-center">
               <div>
                 <div className="mb-2 text-6xl">🍰</div>
-                <p className="text-sm text-muted-foreground">{item.category}</p>
+                <p className="text-lg text-muted-foreground">{item.category}</p>
               </div>
             </div>
           )}
