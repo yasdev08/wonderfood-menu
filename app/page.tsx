@@ -183,7 +183,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "16",
     name: "Crepe Simple",
-    price: 400,
+    price: 450,
     category: "Crepes",
     image: "/images/menu/crepe-simple.png",
     description:
@@ -192,7 +192,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "17",
     name: "Crepe La Banana",
-    price: 500,
+    price: 700,
     category: "Crepes",
     image: "/images/menu/crepe-la-banana.png",
     description:
@@ -201,7 +201,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "18",
     name: "Crepe La Fraisy",
-    price: 500,
+    price: 700,
     category: "Crepes",
     image: "/images/menu/crepe-la-fraisy.png",
     description: "Crêpe fraîcheur fourrée aux morceaux de fraises juteuses.",
@@ -209,7 +209,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "19",
     name: "Crepe La Nuits",
-    price: 600,
+    price: 700,
     category: "Crepes",
     image: "/images/menu/crepe-la-nuits.png",
     description:
@@ -218,7 +218,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "20",
     name: "Crepe La Lotus",
-    price: 600,
+    price: 700,
     category: "Crepes",
     image: "/images/menu/crepe-la-lotus.png",
     description:
@@ -227,7 +227,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "21",
     name: "Crepe 4 Choco",
-    price: 700,
+    price: 800,
     category: "Crepes",
     image: "/images/menu/crepe-4-choco.png",
     description:
@@ -236,7 +236,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "22",
     name: "Crepe Fraisychio",
-    price: 600,
+    price: 700,
     category: "Crepes",
     image: "/images/menu/crepe-fraisychio.png",
     description:
@@ -245,7 +245,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "23",
     name: "Crepe Kiwi",
-    price: 700,
+    price: 800,
     category: "Crepes",
     image: "/images/menu/crepe-kiwi.png",
     description:
@@ -254,7 +254,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "24",
     name: "Crepe La Spéciale",
-    price: 700,
+    price: 800,
     category: "Crepes",
     image: "/images/menu/crepe-la-speciale.png",
     description:
@@ -263,7 +263,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "25",
     name: "Crepe La Fruita",
-    price: 600,
+    price: 700,
     category: "Crepes",
     image: "/images/menu/crepe-la-fruita.png",
     description:
@@ -272,7 +272,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "26",
     name: "Crepe Banachio",
-    price: 600,
+    price: 700,
     category: "Crepes",
     image: "/images/menu/crepe-banachio.png",
     description:
@@ -281,7 +281,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "27",
     name: "Crepe 4 Fruits",
-    price: 700,
+    price: 800,
     category: "Crepes",
     image: "/images/menu/crepe-4-fruits.png",
     description:
@@ -290,7 +290,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "29",
     name: "Crepe Pistachio",
-    price: 500,
+    price: 600,
     category: "Crepes",
     image: "/images/menu/crepe-pistachio.png",
     description:
@@ -299,7 +299,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "31",
     name: "Crepe Ananas",
-    price: 650,
+    price: 700,
     category: "Crepes",
     image: "/images/menu/crepe-ananas.png",
     description:
@@ -308,7 +308,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "33",
     name: "Crepe Nutella Maxi",
-    price: 550,
+    price: 700,
     category: "Crepes",
     image: "/images/menu/crepe-nutella-maxi.png",
     description:
@@ -317,7 +317,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "34",
     name: "Crepe Bueno",
-    price: 600,
+    price: 700,
     category: "Crepes",
     image: "/images/menu/crepe-bueno.png",
     description:
@@ -326,7 +326,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "35",
     name: "Crepe 100% Pistaches",
-    price: 600,
+    price: 700,
     category: "Crepes",
     image: "/images/menu/crepe-100-pistaches.png",
     description:
@@ -335,7 +335,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "36",
     name: "Crepe Mixte",
-    price: 600,
+    price: 700,
     category: "Crepes",
     image: "/images/menu/crepe-mixte.png",
     description:
@@ -344,7 +344,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "37",
     name: "Crepe Wonder",
-    price: 1200,
+    price: 1500,
     category: "Crepes",
     image: "/images/menu/crepe-wonder.png",
     description:
@@ -354,7 +354,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "38",
     name: "Box Fruita",
-    price: 1100,
+    price: 1500,
     category: "Boxes",
     image: "/images/menu/box-fruita.png",
     description:
@@ -363,7 +363,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "39",
     name: "Box Choco",
-    price: 1300,
+    price: 2000,
     category: "Boxes",
     image: "/images/menu/box-choco.png",
     description:
@@ -372,7 +372,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "40",
     name: "Box Wonder Food's",
-    price: 1600,
+    price: 2400,
     category: "Boxes",
     image: "/images/menu/box-wonder.png",
     description:
@@ -391,7 +391,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "42",
     name: "Saint-Sébastien",
-    price: 600,
+    price: 650,
     category: "Desserts",
     image: "/images/menu/saint-sebastien.png",
     description:
@@ -407,20 +407,11 @@ const MENU_ITEMS: MenuItem[] = [
       "Gâteau moelleux au cœur de chocolat chaud coulant, servi avec sa boule de glace vanille.",
   },
   // ── Savory (hidden – kept for future use) ─────────────────────────────────
-  {
-    id: "44",
-    name: "Fajitas",
-    price: 350,
-    category: "Savory",
-    image: "/images/menu/fajitas.png",
-    description:
-      "La seule pause salée : une tortilla garnie de poulet grillé assaisonné, poivrons et fromage fondant.",
-  },
   // ── Sundaes ───────────────────────────────────────────────────────────────
   {
     id: "45",
     name: "Sundae Ferrero",
-    price: 400,
+    price: 450,
     category: "Sundaes",
     image: "/images/menu/sundae-ferrero.png",
     description:
@@ -429,7 +420,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "46",
     name: "Sundae Chocolat",
-    price: 400,
+    price: 450,
     category: "Sundaes",
     image: "/images/menu/sundae-chocolat.png",
     description:
@@ -456,7 +447,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "49",
     name: "Sundae Pistache",
-    price: 400,
+    price: 450,
     category: "Sundaes",
     image: "/images/menu/sundae-pistache.png",
     description:
@@ -484,7 +475,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "52",
     name: "Tiramisu Nutella",
-    price: 400,
+    price: 500,
     category: "Tiramisu",
     image: "/images/menu/tiramisu-nutella.png",
     description:
@@ -493,7 +484,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "53",
     name: "Tiramisu KitKat",
-    price: 400,
+    price: 500,
     category: "Tiramisu",
     image: "/images/menu/tiramisu-kitkat.png",
     description:
@@ -502,7 +493,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "54",
     name: "Tiramisu Pistache",
-    price: 400,
+    price: 500,
     category: "Tiramisu",
     image: "/images/menu/tiramisu-pistache.png",
     description:
@@ -511,7 +502,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "55",
     name: "Tiramisu Bueno",
-    price: 400,
+    price: 500,
     category: "Tiramisu",
     image: "/images/menu/tiramisu-bueno.png",
     description:
@@ -520,7 +511,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "56",
     name: "Tiramisu Mars/Caramel",
-    price: 400,
+    price: 500,
     category: "Tiramisu",
     image: "/images/menu/tiramisu-mars.png",
     description:
@@ -529,7 +520,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "57",
     name: "Tiramisu Oreo",
-    price: 400,
+    price: 500,
     category: "Tiramisu",
     image: "/images/menu/tiramisu-oreo.png",
     description:
@@ -538,7 +529,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "58",
     name: "Tiramisu Raffaello",
-    price: 400,
+    price: 500,
     category: "Tiramisu",
     image: "/images/menu/tiramisu-raffaello.png",
     description:
@@ -547,7 +538,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "59",
     name: "Tiramisu Fruits Rouges",
-    price: 400,
+    price: 500,
     category: "Tiramisu",
     image: "/images/menu/tiramisu-fruits-rouges.png",
     description:
@@ -556,7 +547,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "60",
     name: "Tiramisu Snickers",
-    price: 400,
+    price: 500,
     category: "Tiramisu",
     image: "/images/menu/tiramisu-snickers.png",
     description:
@@ -565,7 +556,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "61",
     name: "Tiramisu Crunch",
-    price: 400,
+    price: 500,
     category: "Tiramisu",
     image: "/images/menu/tiramisu-crunch.png",
     description:
@@ -574,7 +565,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "62",
     name: "Tiramisu Lotus",
-    price: 400,
+    price: 500,
     category: "Tiramisu",
     image: "/images/menu/tiramisu-lotus.png",
     description:
@@ -584,7 +575,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "63",
     name: "Jus Orange",
-    price: 400,
+    price: 500,
     category: "Fresh Juices",
     image: "/images/menu/jus-orange.png",
     description:
@@ -593,7 +584,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "64",
     name: "Jus Citron",
-    price: 400,
+    price: 300,
     category: "Fresh Juices",
     image: "/images/menu/jus-citron.png",
     description:
@@ -611,7 +602,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "66",
     name: "Jus Fraise",
-    price: 450,
+    price: 550,
     category: "Fresh Juices",
     image: "/images/menu/jus-fraise.png",
     description: "Un délice printanier à base de fraises fraîches mixées.",
@@ -619,7 +610,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "67",
     name: "Jus Pastèque",
-    price: 450,
+    price: 400,
     category: "Fresh Juices",
     image: "/images/menu/jus-pasteque.png",
     description:
@@ -628,7 +619,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "68",
     name: "Mojito",
-    price: 300,
+    price: 550,
     category: "Fresh Juices",
     image: "/images/menu/mojito.png",
     description:
@@ -637,7 +628,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "69",
     name: "Grenadine",
-    price: 400,
+    price: 500,
     category: "Fresh Juices",
     image: "/images/menu/grenadine.png",
     description:
@@ -655,7 +646,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "71",
     name: "Jus Ananas",
-    price: 500,
+    price: 600,
     category: "Fresh Juices",
     image: "/images/menu/jus-ananas.png",
     description: "Pur jus d'ananas exotique, parfumé et pressé minute.",
@@ -663,7 +654,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "72",
     name: "Cocktail",
-    price: 400,
+    price: 600,
     category: "Fresh Juices",
     image: "/images/menu/cocktail-fruits.png",
     description:
@@ -673,7 +664,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "73",
     name: "Milkshake Banane",
-    price: 500,
+    price: 600,
     category: "Milkshakes",
     image: "/images/menu/milkshake-banane.png",
     description:
@@ -682,7 +673,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "74",
     name: "Milkshake Fraise",
-    price: 500,
+    price: 600,
     category: "Milkshakes",
     image: "/images/menu/milkshake-fraise.png",
     description:
@@ -700,7 +691,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "76",
     name: "Milkshake Oreo",
-    price: 600,
+    price: 650,
     category: "Milkshakes",
     image: "/images/menu/milkshake-oreo.png",
     description:
@@ -709,30 +700,13 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "77",
     name: "Milkshake Bueno",
-    price: 600,
+    price: 550,
     category: "Milkshakes",
     image: "/images/menu/milkshake-bueno.png",
     description:
       "Boisson lactée frappée aromatisée à la crème de noisette Kinder Bueno.",
   },
-  {
-    id: "78",
-    name: "Milkshake Raffaello",
-    price: 600,
-    category: "Milkshakes",
-    image: "/images/menu/milkshake-raffaello.png",
-    description:
-      "Douceur blanche au lait de coco, glace vanille et éclats de Raffaello.",
-  },
-  {
-    id: "79",
-    name: "Milkshake Ferrero",
-    price: 600,
-    category: "Milkshakes",
-    image: "/images/menu/milkshake-ferrero.png",
-    description:
-      "Un shake premium ultra-chocolaté au bon goût de praliné Ferrero Rocher.",
-  },
+
   {
     id: "80",
     name: "Milkshake Speculos",
@@ -746,7 +720,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "81",
     name: "Café",
-    price: 200,
+    price: 300,
     category: "Hot Beverages",
     image: "/images/menu/cafe.png",
     description:
@@ -755,7 +729,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "82",
     name: "Thé Infusion",
-    price: 200,
+    price: 250,
     category: "Hot Beverages",
     image: "/images/menu/the-infusion.png",
     description:
@@ -763,17 +737,17 @@ const MENU_ITEMS: MenuItem[] = [
   },
   {
     id: "83",
-    name: "Thé Maison",
+    name: "Café au lait  Maison",
     price: 150,
     category: "Hot Beverages",
-    image: "/images/menu/the-maison.png",
+    image: "/images/menu/cafe.png",
     description:
       "Notre thé traditionnel infusé aux feuilles de menthe fraîches de manière artisanale.",
   },
   {
     id: "84",
     name: "Cappuccino",
-    price: 300,
+    price: 400,
     category: "Hot Beverages",
     image: "/images/menu/cappuccino.png",
     description:
@@ -782,48 +756,14 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "85",
     name: "Lait Au Chocolat",
-    price: 400,
+    price: 500,
     category: "Hot Beverages",
     image: "/images/menu/lait-chocolat.png",
     description:
       "Lait chaud entier réconfortant mélangé à un cacao premium de qualité.",
   },
   // ── Bottled Drinks (hidden – kept for future use) ──────────────────────────
-  {
-    id: "86",
-    name: "Eau Minérale (Ifri)",
-    price: 50,
-    category: "Bottled Drinks",
-    image: "/images/menu/eau-ifri.png",
-    description: "Bouteille d'eau minérale naturelle locale Ifri de 50cl.",
-  },
-  {
-    id: "87",
-    name: "Azro Energy",
-    price: 600,
-    category: "Bottled Drinks",
-    image: "/images/menu/azro.png",
-    description:
-      "Boisson énergisante locale Azro pour un coup de boost immédiat.",
-  },
-  {
-    id: "88",
-    name: "Oasis / Red Bull",
-    price: 500,
-    category: "Bottled Drinks",
-    image: "/images/menu/oasis-redbull.png",
-    description:
-      "Sélection au choix entre boisson fruitée Oasis ou canette Red Bull classique.",
-  },
-  {
-    id: "89",
-    name: "Soda Can (Coca/Pepsi/Selecto)",
-    price: 150,
-    category: "Bottled Drinks",
-    image: "/images/menu/soda-can.png",
-    description:
-      "Canette de boisson gazeuse fraîche au choix (Coca-Cola, Pepsi ou Selecto).",
-  },
+
   // ── Supplements (hidden – converted to toppings) ───────────────────────────
   {
     id: "90",
@@ -865,7 +805,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "4",
     name: "Waffle Nutella",
-    price: 400,
+    price: 550,
     category: "Waffles",
     image: "/images/menu/waffle-nutella.png",
     description:
@@ -874,7 +814,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "5",
     name: "Waffle Nutella Banane",
-    price: 500,
+    price: 700,
     category: "Waffles",
     image: "/images/menu/waffle-nutella-banane.png",
     description:
@@ -883,7 +823,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "6",
     name: "Waffle Nutella Fraise",
-    price: 500,
+    price: 650,
     category: "Waffles",
     image: "/images/menu/waffle-nutella-fraise.png",
     description:
@@ -892,7 +832,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "7",
     name: "Waffle Nutella Kinder Bueno",
-    price: 600,
+    price: 700,
     category: "Waffles",
     image: "/images/menu/waffle-nutella-kinder-bueno.png",
     description:
@@ -901,7 +841,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "8",
     name: "Waffle Nutella Snickers",
-    price: 500,
+    price: 700,
     category: "Waffles",
     image: "/images/menu/waffle-nutella-snickers.png",
     description:
@@ -910,7 +850,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "9",
     name: "Waffle Nutella Oreo",
-    price: 500,
+    price: 700,
     category: "Waffles",
     image: "/images/menu/waffle-nutella-oreo.png",
     description:
@@ -919,7 +859,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "10",
     name: "Waffle Nutella Lotus",
-    price: 500,
+    price: 650,
     category: "Waffles",
     image: "/images/menu/waffle-nutella-lotus.png",
     description:
