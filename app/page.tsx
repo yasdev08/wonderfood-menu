@@ -137,7 +137,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "11",
     name: "Tarte Fruits",
-    price: 4500,
+    price: 6000,
     category: "Tartes",
     image: "/images/menu/tarte-fruits.png",
     description:
@@ -146,7 +146,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "12",
     name: "Tarte Mixte",
-    price: 5500,
+    price: 6000,
     category: "Tartes",
     image: "/images/menu/tarte-mixte.png",
     description:
