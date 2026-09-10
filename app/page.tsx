@@ -720,7 +720,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "81",
     name: "Café",
-    price: 300,
+    price: 200,
     category: "Hot Beverages",
     image: "/images/menu/cafe.png",
     description:
@@ -729,7 +729,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "82",
     name: "Thé Infusion",
-    price: 250,
+    price: 200,
     category: "Hot Beverages",
     image: "/images/menu/the-infusion.png",
     description:
@@ -738,7 +738,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "83",
     name: "Café au lait  Maison",
-    price: 150,
+    price: 250,
     category: "Hot Beverages",
     image: "/images/menu/cafe.png",
     description:
@@ -747,7 +747,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "84",
     name: "Cappuccino",
-    price: 400,
+    price: 300,
     category: "Hot Beverages",
     image: "/images/menu/cappuccino.png",
     description:
@@ -756,7 +756,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "85",
     name: "Lait Au Chocolat",
-    price: 500,
+    price: 350,
     category: "Hot Beverages",
     image: "/images/menu/lait-chocolat.png",
     description:
