@@ -67,6 +67,7 @@ export const VISIBLE_CATEGORIES = [
   "Tiramisu",
   "Hot Beverages",
   "Tartes",
+  "Desserts",
 ] as const;
 
 export type VisibleCategory = (typeof VISIBLE_CATEGORIES)[number];
@@ -83,6 +84,7 @@ export const CATEGORY_LABELS: Record<string, string> = {
   "Fresh Juices": "Jus",
   Tiramisu: "Tiramisu",
   "Hot Beverages": "Boissons Chaudes",
+  Desserts: "Desserts",
 };
 
 /** Only these 4 categories open the toppings customisation modal */
@@ -179,6 +181,72 @@ const MENU_ITEMS: MenuItem[] = [
     description:
       "Notre plus grande tarte événementielle, une explosion de garnitures et de douceurs surprises.",
   },
+  {
+    id: "101",
+    name: "Tarte Cheesecake",
+    price: 4700,
+    category: "Specials",
+    image: "/images/menu/Tarte-cheesecake.png",
+    description:
+      "Notre plus grande tarte événementielle, une explosion de garnitures et de douceurs surprises.",
+  },
+  {
+    id: "102",
+    name: "Crepe Moulise",
+    price: 450,
+    category: "Specials",
+    image: "/images/menu/Moulise.png",
+    description: "Crepe Moulise",
+  },
+  {
+    id: "103",
+    name: "Brownies",
+    price: 600,
+    category: "Specials",
+    image: "/images/menu/Brownies.png",
+    description: "Brownies",
+  },
+  {
+    id: "104",
+    name: "Browkies",
+    price: 600,
+    category: "Specials",
+    image: "/images/menu/Browkies.png",
+    description: "Browkies",
+  },
+  {
+    id: "105",
+    name: "Scoop Cookies ",
+    price: 600,
+    category: "Specials",
+    image: "/images/menu/Scoop-Cookies.png",
+    description: "Scoop Cookies",
+  },
+  {
+    id: "106",
+    name: "Mini Pancakes",
+    price: 500,
+    category: "Specials",
+    image: "/images/menu/mini-pancakes.png",
+    description: "Mini Pancakes",
+  },
+  {
+    id: "107",
+    name: "Pancakes",
+    price: 650,
+    category: "Specials",
+    image: "/images/menu/Pancakes.png",
+    description: "Pancakes",
+  },
+  {
+    id: "108",
+    name: "Qtayef",
+    price: 200,
+    category: "Specials",
+    image: "/images/menu/qtayef.png",
+    description: "Qtayef",
+  },
+
   // ── Crepes ────────────────────────────────────────────────────────────────
   {
     id: "16",
@@ -384,7 +452,7 @@ const MENU_ITEMS: MenuItem[] = [
     name: "Cheesecake",
     price: 500,
     category: "Desserts",
-    image: "/images/menu/cheesecake.png",
+    image: "/images/menu/cheesecake-choco.png",
     description:
       "Gâteau au fromage blanc onctueux sur sa base croustillante de biscuits émiettés.",
   },
