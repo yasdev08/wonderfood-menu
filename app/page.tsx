@@ -450,7 +450,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "41",
     name: "Cheesecake",
-    price: 500,
+    price: 650,
     category: "Desserts",
     image: "/images/menu/cheesecake-choco.png",
     description:
