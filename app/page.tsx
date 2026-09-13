@@ -468,11 +468,19 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "43",
     name: "Fondant-Glaces",
-    price: 600,
+    price: 650,
     category: "Desserts",
     image: "/images/menu/fondant-glaces.png",
     description:
       "Gâteau moelleux au cœur de chocolat chaud coulant, servi avec sa boule de glace vanille.",
+  },
+  {
+    id: "108",
+    name: "Fondant",
+    price: 400,
+    category: "Desserts",
+    image: "/images/menu/fondant-glaces.png",
+    description: "Gâteau moelleux au cœur de chocolat chaud coulant.",
   },
   // ── Savory (hidden – kept for future use) ─────────────────────────────────
   // ── Sundaes ───────────────────────────────────────────────────────────────
