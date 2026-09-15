@@ -484,7 +484,7 @@ const MENU_ITEMS: MenuItem[] = [
     name: "Cheesecake Bueno",
     price: 650,
     category: "Desserts",
-    image: "/images/menu/cheesecake-Bueno.png",
+    image: "/images/menu/cheesecake-bueno.png",
     description: "ChesseCake Oreo",
   },
   {
@@ -492,7 +492,7 @@ const MENU_ITEMS: MenuItem[] = [
     name: "Cheesecake Lotus",
     price: 650,
     category: "Desserts",
-    image: "/images/menu/cheesecake-Lotus.png",
+    image: "/images/menu/cheesecake-lotus.png",
     description: "ChesseCake Lotus",
   },
   {
