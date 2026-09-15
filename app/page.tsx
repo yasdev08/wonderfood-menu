@@ -468,7 +468,7 @@ const MENU_ITEMS: MenuItem[] = [
     name: "Cheesecake Kunafa",
     price: 650,
     category: "Desserts",
-    image: "/images/menu/cheesecake-kunafa.png",
+    image: "/images/menu/chscake-kunafa.png",
     description: "ChesseCake Kunafa",
   },
   {
