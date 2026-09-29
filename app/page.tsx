@@ -93,15 +93,20 @@ const CUSTOMIZABLE_CATEGORIES = new Set<string>([
   "Waffles",
   "Milkshakes",
   "Tiramisu",
+  "Specials",
+  "Sundaes",
+  "Milkshakes",
+  "Tiramisu",
+  "Desserts",
 ]);
 
 // ─── Toppings (converted from existing Supplement products) ───────────────────
 
 export const TOPPINGS: Topping[] = [
-  { id: "topping-standard", name: "Topping Standard", price: 150 },
-  { id: "topping-nutella", name: "Nutella", price: 100 },
+  { id: "topping-standard", name: "Topping Standard", price: 200 },
+  { id: "topping-nutella", name: "Nutella", price: 200 },
   { id: "topping-kiwi", name: "Kiwi", price: 200 },
-  { id: "topping-banane", name: "Banane", price: 150 },
+  { id: "topping-banane", name: "Banane", price: 200 },
 ];
 
 // ─── Menu Items ───────────────────────────────────────────────────────────────
@@ -899,7 +904,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "90",
     name: "Toppings Standard",
-    price: 150,
+    price: 200,
     category: "Supplements",
     image: "/images/menu/toppings-standard.png",
     description:
@@ -908,7 +913,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "91",
     name: "Supplement Nutella",
-    price: 100,
+    price: 200,
     category: "Supplements",
     image: "/images/menu/supplement-nutella.png",
     description:
@@ -926,7 +931,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     id: "93",
     name: "Supplement Fruits (Banane)",
-    price: 150,
+    price: 200,
     category: "Supplements",
     image: "/images/menu/supplement-banane.png",
     description:

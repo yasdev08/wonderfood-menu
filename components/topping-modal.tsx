@@ -222,10 +222,7 @@ export function ToppingModal({
                   <p className="text-xs text-muted-foreground mt-0.5">
                     {item.price} DA
                     {selectedToppings.map((t) => (
-                      <span key={t.id}>
-                        {" "}
-                        + {t.price} DA
-                      </span>
+                      <span key={t.id}> + {t.price} DA</span>
                     ))}
                     {quantity > 1 && <span> × {quantity}</span>}
                   </p>
