@@ -39,7 +39,7 @@ export function Header({ onSearch, cartItemsCount, onCartClick }: HeaderProps) {
         {/* Logo */}
         <div className="flex-shrink-0">
           <Image
-            alt="Wonder food's logo"
+            alt="Wonder Food's Maraval"
             src="/logo1.svg"
             width={120}
             height={40}

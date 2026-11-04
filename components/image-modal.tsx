@@ -1,7 +1,7 @@
 "use client";
 
 import { createPortal } from "react-dom";
-import { MenuItem } from "@/app/page";
+import { MenuItem } from "@/lib/menu";
 import { X } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -60,7 +60,7 @@ export function ImageModal({ item, onClose }: ImageModalProps) {
           {imageSrc ? (
             <Image
               src={imageSrc}
-              alt={item.name}
+              alt={`${item.name}${item.description ? ` – ${item.description}` : ""}`}
               width={800}
               height={600}
               priority

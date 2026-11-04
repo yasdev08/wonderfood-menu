@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { MenuItem } from "@/app/page";
+import { MenuItem } from "@/lib/menu";
 import { Plus, Maximize2 } from "lucide-react";
 // @ts-ignore — the installed Next.js package is missing its image type declarations.
 import Image from "next/image";
@@ -205,7 +205,7 @@ function FoodCardComponent({
           <>
             <Image
               src={imageSrc}
-              alt={item.name}
+              alt={`${item.name}${item.description ? ` – ${item.description}` : ""}`}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
               onError={() => setImageError(true)}

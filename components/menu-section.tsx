@@ -1,6 +1,6 @@
 "use client";
 
-import { MenuItem } from "@/app/page";
+import { MenuItem } from "@/lib/menu";
 import { FoodCard } from "./food-card";
 
 interface MenuSectionProps {

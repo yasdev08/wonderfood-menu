@@ -1,7 +1,7 @@
 "use client";
 
 import { createPortal } from "react-dom";
-import { MenuItem, Topping } from "@/app/page";
+import { MenuItem, Topping } from "@/lib/menu";
 import { X, Minus, Plus } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -90,7 +90,7 @@ export function ToppingModal({
           {imageSrc ? (
             <Image
               src={imageSrc}
-              alt={item.name}
+              alt={`${item.name}${item.description ? ` – ${item.description}` : ""}`}
               fill
               sizes="(max-width: 640px) 100vw, 448px"
               className="object-cover"

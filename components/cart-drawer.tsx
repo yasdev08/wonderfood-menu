@@ -1,6 +1,6 @@
 "use client";
 
-import { CartItem, getCartItemUnitPrice } from "@/app/page";
+import { CartItem, getCartItemUnitPrice } from "@/lib/menu";
 import { X, Trash2, ShoppingCart, ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";

@@ -60,14 +60,14 @@ export function Hero() {
           Desserts premium & boissons
         </motion.div>
 
-        <motion.h2
+        <motion.h1
           variants={itemVariants}
           className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 tracking-tight text-balance"
         >
           Goûtez la magie de
           <br />
           <span className="text-accent">Wonder Food&apos;s Maraval</span>
-        </motion.h2>
+        </motion.h1>
 
         <motion.p
           variants={itemVariants}
