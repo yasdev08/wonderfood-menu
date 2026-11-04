@@ -33,6 +33,9 @@ export const metadata: Metadata = {
   publisher: SITE.name,
   category: "food",
   alternates: { canonical: "/" },
+  verification: {
+    google: "ParzrzCQjskmykVgCMuNx3gA3nX8O9VOorwa6rDJBxo",
+  },
   formatDetection: { telephone: true, address: true, email: false },
   robots: {
     index: true,
